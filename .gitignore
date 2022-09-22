@@ -1,0 +1,8 @@
+
+*.db
+*.opendb
+*.vsidx
+*.lock
+*.db-shm
+*.db-wal
+*.ipch
