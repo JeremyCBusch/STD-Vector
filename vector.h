@@ -114,9 +114,9 @@ public:
    // Status
    //
 
-   size_t  size()          const { return 999;}
-   size_t  capacity()      const { return 999;}
-   bool empty()            const { return true;}
+   size_t  size()          const { return numElements;}
+   size_t  capacity()      const { return numCapacity;}
+   bool empty()            const { return size() == 0; }
    
    // adjust the size of the buffer
    
@@ -205,9 +205,8 @@ private:
 template <typename T>
 vector <T> :: vector()
 {
-   data = new T[10];
-   numCapacity = 99;
-   numElements = 99;
+   numCapacity = 0;
+   numElements = 0;
 }
 
 /*****************************************
@@ -218,9 +217,10 @@ vector <T> :: vector()
 template <typename T>
 vector <T> :: vector(size_t num, const T & t) 
 {
-   data = new T[10];
-   numCapacity = 99;
-   numElements = 99;
+   data = new T[num];
+   data[0] = t;
+   numCapacity = 1;
+   numElements = 1;
 }
 
 /*****************************************
@@ -230,9 +230,16 @@ vector <T> :: vector(size_t num, const T & t)
 template <typename T>
 vector <T> :: vector(const std::initializer_list<T> & l) 
 {
-   data = new T[10];
-   numCapacity = 99;
-   numElements = 99;
+   data = new T[l.size()];
+   numCapacity = l.size();
+   numElements = l.size();
+
+   int index = 0;
+   for (auto it = l.begin(); it != l.end(); it++)
+   {
+      data[index] = *it;
+      index++;
+   }
 }
 
 /*****************************************
@@ -243,9 +250,9 @@ vector <T> :: vector(const std::initializer_list<T> & l)
 template <typename T>
 vector <T> :: vector(size_t num) 
 {
-   data = new T[10];
-   numCapacity = 99;
-   numElements = 99;
+   data = new T[num];
+   numCapacity = num;
+   numElements = num;
 }
 
 /*****************************************
@@ -256,9 +263,16 @@ vector <T> :: vector(size_t num)
 template <typename T>
 vector <T> :: vector (const vector & rhs) 
 {
-   data = new T[10];
-   numCapacity = 99;
-   numElements = 99;
+   data = new T[rhs.numCapacity];
+   numCapacity = rhs.numCapacity;
+   numElements = rhs.numElements;
+
+   /*int index = 0;
+   for (const auto it = rhs.begin(); it != rhs.end(); it++)
+   {
+      data[index] = *it;
+      index++;
+   }*/
 }
 
 /*****************************************
@@ -268,9 +282,22 @@ vector <T> :: vector (const vector & rhs)
 template <typename T>
 vector <T> :: vector (vector && rhs)
 {
-   data = new T[10];
-   numCapacity = 99;
-   numElements = 99;
+   // the same as the copy constructor but remove the data in the rhs
+   data = new T[rhs.numCapacity];
+   numCapacity = rhs.numCapacity;
+   numElements = rhs.numElements;
+
+   /*int index = 0;
+   for (auto it = rhs.begin(); it != rhs.end(); it++)
+   {
+      data[index] = *it;
+      index++;
+   }
+
+   rhs.numCapacity = 0;
+   rhs.numElements = 0;
+   rhs.data = 0;*/
+   //delete *rhs;
 }
 
 /*****************************************
@@ -281,7 +308,7 @@ vector <T> :: vector (vector && rhs)
 template <typename T>
 vector <T> :: ~vector()
 {
-   
+   //delete data;
 }
 
 /***************************************
