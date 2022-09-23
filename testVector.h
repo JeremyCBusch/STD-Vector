@@ -47,11 +47,12 @@ public:
       test_destructor_partiallyFilled();
       //
       //// Assign
+      //jeremy
       test_assign_empty();
       test_assign_sameSize();
       test_assign_rightBigger();
-      //test_assign_leftBigger();
-      //test_assignMove_empty();
+      test_assign_leftBigger();
+      test_assignMove_empty();
       //test_assignMove_sameSize();
       //test_assignMove_rightBigger();
       //test_assignMove_leftBigger();
@@ -61,6 +62,7 @@ public:
       //test_swap_leftBigger();
 
       //// Iterator
+      // //jeremy
       //test_iterator_beginEmpty();
       //test_iterator_beginFull();
       //test_iterator_endFull();
@@ -72,6 +74,7 @@ public:
       //test_iterator_construct_index();
 
       //// Access
+      // josh
       //test_subscript_read();
       //test_subscript_write();
       //test_front_read();
@@ -80,6 +83,7 @@ public:
       //test_back_write();
 
       //// Insert
+      // josh
       //test_pushback_empty();
       //test_pushback_excessCapacity();
       //test_pushback_requireReallocate();
@@ -101,6 +105,7 @@ public:
       //test_reserve_standardTen();
 
       //// Remove
+      // jeremy
       //test_popback_empty();
       //test_popback_full();
       //test_popback_partiallyFilled();
@@ -113,6 +118,7 @@ public:
       //test_shrink_twoExtraSlots();
 
       //// Status
+      // josh
       //test_size_empty();
       //test_size_full();
       //test_empty_empty();
@@ -978,7 +984,7 @@ public:
       //      0    1    2    3
       //    +----+----+----+----+
       //    | 26 | 49 | 67 | 89 |
-      //    +----+----+----+----+
+      //    +----+----+----+----+ 
       assertStandardFixture(vSrc);
       //      0    1    2    3
       //    +----+----+----+----+

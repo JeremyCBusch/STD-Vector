@@ -67,7 +67,7 @@ public:
 
    void swap(vector& rhs)
    {
-
+      
    }
    vector & operator = (const vector & rhs);
    vector& operator = (vector&& rhs);
@@ -493,24 +493,36 @@ void vector <T> ::push_back(T && t)
 template <typename T>
 vector <T> & vector <T> :: operator = (const vector & rhs)
 {
-   if (rhs.numElements > numCapacity) {
-      numCapacity = rhs.numElements;
-      data = new T[numCapacity];
+   if (rhs.data == nullptr) {
+      numCapacity = 0;
+      numElements = 0;
+      data = nullptr;
    }
-   for (int i = 0; i < rhs.numElements; i++) {
-      data[i] = rhs.data[i];
+   else {
+      if (rhs.numElements > numCapacity) {
+         numCapacity = rhs.numElements;
+         numElements = rhs.numElements;
+         data = new T[numCapacity];
+      }
+      data = rhs.data;
    }
    return *this;
 }
 template <typename T>
 vector <T>& vector <T> :: operator = (vector&& rhs)
 {
-   if (rhs.numElements > numCapacity) {
-      numCapacity = rhs.numElements;
-      data = new T[numCapacity];
+   if (rhs.data == nullptr) {
+      numCapacity = 0;
+      numElements = 0;
+      data = nullptr;
    }
-   for (int i = 0; i < rhs.numElements; i++) {
-      data[i] = rhs.data[i];
+   else {
+      if (rhs.numElements > numCapacity) {
+         numCapacity = rhs.numElements;
+         numElements = rhs.numElements;
+         data = new T[numCapacity];
+      }
+      data = rhs.data;
    }
    return *this;
 }
