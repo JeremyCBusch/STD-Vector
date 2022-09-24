@@ -67,7 +67,17 @@ public:
 
    void swap(vector& rhs)
    {
-      
+      T* tempData = rhs.data;
+      rhs.data = data;
+      data = tempData;
+
+      int numElementsTemp = rhs.numElements;
+      rhs.numElements = numElements;
+      numElements = numElementsTemp;
+
+      int numCapacityTemp = rhs.numCapacity;
+      rhs.numCapacity = numCapacity;
+      numCapacity = numCapacityTemp;
    }
    vector & operator = (const vector & rhs);
    vector& operator = (vector&& rhs);
@@ -77,8 +87,8 @@ public:
    //
 
    class iterator;
-   iterator       begin() { return iterator(); }
-   iterator       end() { return iterator(); }
+   iterator       begin() { return iterator(data); }
+   iterator       end() { return iterator(data + numCapacity); }
 
    //
    // Access
@@ -110,6 +120,8 @@ public:
    }
    void pop_back()
    {
+      data = 0;
+      numElements--;
    }
    void shrink_to_fit();
 
@@ -152,47 +164,54 @@ class vector <T> ::iterator
    friend class ::TestHash;
 public:
    // constructors, destructors, and assignment operator
-   iterator()                           { this->p = new T; }
-   iterator(T* p)                       { this->p = new T; }
-   iterator(const iterator& rhs)        { this->p = new T; }
-   iterator(size_t index, vector<T>& v) { this->p = new T; }
+   iterator()                           { this->p = nullptr; }
+   iterator(T* p)                       { this->p = p; }
+   iterator(const iterator& rhs)        { this->p = rhs.p; }
+   iterator(size_t index, vector<T>& v) { this->p = v.data + index; }
    iterator& operator = (const iterator& rhs)
    {
-      this->p = new T;
+      this->p = rhs.p;
       return *this;
    }
 
    // equals, not equals operator
-   bool operator != (const iterator& rhs) const { return true; }
-   bool operator == (const iterator& rhs) const { return true; }
+   bool operator != (const iterator& rhs) const { data != rhs.data; }
+   bool operator == (const iterator& rhs) const { data == rhs.data;
+   }
 
    // dereference operator
    T& operator * ()
    {
-      return *(new T);
+      return *p;
    }
 
    // prefix increment
    iterator& operator ++ ()
    {
-      return *this;
+      iterator oldMe = *this;
+      p++;
+      return oldMe;
    }
 
    // postfix increment
    iterator operator ++ (int postfix)
    {
+      p++;
       return *this;
    }
 
    // prefix decrement
    iterator& operator -- ()
    {
-      return *this;
+      iterator oldMe = *this;
+      p--;
+      return oldMe;
    }
 
    // postfix decrement
    iterator operator -- (int postfix)
    {
+      p--;
       return *this;
    }
 
@@ -307,14 +326,26 @@ template <typename T>
 vector <T> :: vector (vector && rhs)
 {
    // the same as the copy constructor but remove the data in the rhs
-   numCapacity = rhs.numCapacity;
-   numElements = rhs.numElements;
+   if (rhs.data == nullptr) {
+      numCapacity = 0;
+      numElements = 0;
+      data = nullptr;
+   }
+   else {
+      if (rhs.numElements > numCapacity) {
+         numCapacity = rhs.numCapacity;
+         numElements = rhs.numElements;
+      }
+      else if (rhs.numElements < numCapacity) {
+         numElements = rhs.numElements;
+      }
+      data = rhs.data;
+   }
 
-   //*this = rhs;
-   data = rhs.data;
    rhs.data = nullptr;
    rhs.numElements = 0;
    rhs.numCapacity = 0;
+   //cout << rhs.numElements << endl;
 }
 
 /*****************************************
@@ -325,16 +356,10 @@ vector <T> :: vector (vector && rhs)
 template <typename T>
 vector <T> :: ~vector()
 {
-   /*for (auto it = vector.begin(); it != vector.end(); it++)
-   {
-      *it = NULL;
-   }*/
-
    delete [] data;
    data = nullptr;
    numCapacity = 0;
    numElements = 0;
-   /*vector.clear();*/
 }
 
 /***************************************
@@ -499,15 +524,20 @@ vector <T> & vector <T> :: operator = (const vector & rhs)
       data = nullptr;
    }
    else {
+      numElements = rhs.numElements;
       if (rhs.numElements > numCapacity) {
-         numCapacity = rhs.numElements;
-         numElements = rhs.numElements;
-         data = new T[numCapacity];
+         numCapacity = rhs.numCapacity;
       }
-      data = rhs.data;
+      for (int i = 0; i < numElements; i++) {
+         this->data[i] = rhs.data[i];
+
+      }
    }
+
    return *this;
 }
+
+
 template <typename T>
 vector <T>& vector <T> :: operator = (vector&& rhs)
 {
@@ -517,12 +547,12 @@ vector <T>& vector <T> :: operator = (vector&& rhs)
       data = nullptr;
    }
    else {
+      numElements = rhs.numElements;
       if (rhs.numElements > numCapacity) {
-         numCapacity = rhs.numElements;
-         numElements = rhs.numElements;
-         data = new T[numCapacity];
+         numCapacity = rhs.numCapacity;       
       }
-      data = rhs.data;
+      for (int i = 0; i < numElements; i++)
+         data[i] = rhs.data[i];
    }
    return *this;
 }
