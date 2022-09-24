@@ -117,10 +117,19 @@ public:
 
    void clear()
    {
+      for (int i = 0; i < 0; i++) {
+         data[i] = 0;
+      }
+      numElements = 0;
    }
    void pop_back()
    {
-      data = 0;
+      if (data == nullptr) {
+         return;
+      }
+
+      T value = back();
+      value = 0;
       numElements--;
    }
    void shrink_to_fit();
@@ -326,25 +335,36 @@ template <typename T>
 vector <T> :: vector (vector && rhs)
 {
    // the same as the copy constructor but remove the data in the rhs
-   if (rhs.data == nullptr) {
-      numCapacity = 0;
-      numElements = 0;
-      data = nullptr;
-   }
-   else {
-      if (rhs.numElements > numCapacity) {
-         numCapacity = rhs.numCapacity;
-         numElements = rhs.numElements;
-      }
-      else if (rhs.numElements < numCapacity) {
-         numElements = rhs.numElements;
-      }
-      data = rhs.data;
-   }
+   //if (rhs.data == nullptr) {
+   //   numCapacity = 0;
+   //   numElements = 0;
+   //   data = nullptr;
+   //}
+   //else {
+   //   if (rhs.numElements > numCapacity) {
+   //      numCapacity = rhs.numCapacity;
+   //      numElements = rhs.numElements;
+   //   }
+   //   else if (rhs.numElements < numCapacity) {
+   //      numElements = rhs.numElements;
+   //   }
+   //   data = rhs.data;
+   //}
 
+   //rhs.data = nullptr;
+   //rhs.numElements = 0;
+   //rhs.numCapacity = 0;
+   
+   data = rhs.data;
    rhs.data = nullptr;
+
+   numElements = rhs.numElements;
    rhs.numElements = 0;
+
+   numCapacity = rhs.numCapacity;
    rhs.numCapacity = 0;
+
+
    //cout << rhs.numElements << endl;
 }
 
@@ -420,7 +440,20 @@ void vector <T> :: reserve(size_t newCapacity)
 template <typename T>
 void vector <T> :: shrink_to_fit()
 {
-   
+   if (numElements != 0) 
+   {
+      T* newData = new T[numElements];
+      for (int i = 0; i < numElements; i++)
+      {
+         newData[i] = data[i];
+      }
+      data = newData;
+      numCapacity = numElements;
+   }
+   else {
+      data = nullptr;
+      numCapacity = 0;
+   }
 }
 
 
@@ -468,7 +501,7 @@ const T & vector <T> :: front () const
 }
 
 /*****************************************
- * VECTOR :: FRONT
+ * VECTOR :: BACK
  * Read-Write access
  ****************************************/
 template <typename T>
@@ -478,7 +511,7 @@ T & vector <T> :: back()
 }
 
 /******************************************
- * VECTOR :: FRONT
+ * VECTOR :: Back
  * Read-Write access
  *****************************************/
 template <typename T>

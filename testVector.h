@@ -30,30 +30,30 @@ public:
       reset();
       
       // Construct
-      test_construct_default();
-      test_construct_sizeZero();
-      test_construct_sizeFour();
-      test_construct_sizeFourFill();
-      test_constructCopy_empty();
-      test_constructCopy_standard();
-      test_constructCopy_partiallyFilled();
-      test_constructMove_empty();
-      test_constructMove_standard();
-      test_constructMove_partiallyFilled();
-      test_constructInit_empty();
-      test_constructInit_standard();
-      test_destructor_empty();
-      test_destructor_standard();
-      test_destructor_partiallyFilled();
-      //
-      //// Assign
-      //jeremy
-      test_assign_empty();
-      test_assign_sameSize();
-      test_assign_rightBigger();
-      test_assign_leftBigger();
-      test_assignMove_empty();
-      //test_assignMove_sameSize();
+      //test_construct_default();
+      //test_construct_sizeZero();
+      //test_construct_sizeFour();
+      //test_construct_sizeFourFill();
+      //test_constructCopy_empty();
+      //test_constructCopy_standard();
+      //test_constructCopy_partiallyFilled();
+      //test_constructMove_empty();
+      //test_constructMove_standard();
+      //test_constructMove_partiallyFilled();
+      //test_constructInit_empty();
+      //test_constructInit_standard();
+      //test_destructor_empty();
+      //test_destructor_standard();
+      //test_destructor_partiallyFilled();
+      ////
+      ////// Assign
+      ////jeremy
+      //test_assign_empty();
+      //test_assign_sameSize();
+      //test_assign_rightBigger();
+      //test_assign_leftBigger();
+      //test_assignMove_empty();
+      test_assignMove_sameSize();
       //test_assignMove_rightBigger();
       //test_assignMove_leftBigger();
       //test_swap_empty();
@@ -61,8 +61,8 @@ public:
       //test_swap_rightBigger();
       //test_swap_leftBigger();
 
-      //// Iterator
-      // //jeremy
+      ////// Iterator
+      //// //jeremy
       //test_iterator_beginEmpty();
       //test_iterator_beginFull();
       //test_iterator_endFull();
