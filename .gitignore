@@ -6,3 +6,15 @@
 *.db-shm
 *.db-wal
 *.ipch
+.vs/LabVector/v17/.suo
+*.exe
+*.recipe
+*.ilk
+*.log
+*.pdb
+*.tlog
+*.txt
+*.obj
+*.idb
+testVector.h
+testVector.h
